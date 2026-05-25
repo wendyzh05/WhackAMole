@@ -3,45 +3,122 @@ using UnityEngine;
 
 public class CapsuleLogic : MonoBehaviour
 {
-
     private Renderer capsuleRenderer;
     private ComboManager comboManager;
+
+    public bool isEnemy;
+
+    private bool isUp = false;
 
     void Start()
     {
         capsuleRenderer = GetComponent<Renderer>();
-        StartCoroutine(Spawn());
+
         comboManager = FindFirstObjectByType<ComboManager>();
+
+        // start random loop
+        StartCoroutine(MoleLoop());
+    }
+
+    IEnumerator MoleLoop()
+    {
+        while (true)
+        {
+            // random delay before appearing
+            yield return new WaitForSeconds(Random.Range(3f, 6f));
+
+            RandomizeType();
+
+            // SPAWN (go up)
+            yield return StartCoroutine(Spawn());
+
+            isUp = true;
+
+            // stay visible
+            yield return new WaitForSeconds(1f);
+
+            // DESPAWN (go down)
+            yield return StartCoroutine(Despawn());
+
+            isUp = false;
+        }
+    }
+
+    void RandomizeType()
+    {
+        isEnemy = Random.value > 0.5f;
+
+        if (isEnemy)
+        {
+            capsuleRenderer.material.color = Color.red;
+        }
+        else
+        {
+            capsuleRenderer.material.color = Color.green;
+        }
     }
 
     void OnMouseDown()
     {
-        //interacts w combo
-        if (comboManager != null)
+        if (!isUp) return;
+
+        // red enemy - good
+        if (isEnemy)
         {
-            comboManager.RegisterHit();
+            if (comboManager != null)
+            {
+                comboManager.RegisterHit();
+            }
+
+            if (ScoreManager.instance != null)
+            {
+                ScoreManager.instance.AddScore(1);
+            }
+        }
+        // green character - bad
+        else
+        {
+            if (comboManager != null)
+            {
+                comboManager.RegisterMiss();
+            }
+
+            if (ScoreManager.instance != null)
+            {
+                ScoreManager.instance.AddScore(-1);
+            }
         }
 
-        StartCoroutine(Despawn());
+        StopAllCoroutines();
+
+        StartCoroutine(HitMole());
+    }
+
+    IEnumerator HitMole()
+    {
+        yield return StartCoroutine(Despawn());
+
+        isUp = false;
+
+        StartCoroutine(MoleLoop());
     }
 
     IEnumerator Despawn()
-    {;
+    {
         for (int i = 0; i < 5; i++)
         {
-            yield return new WaitForSeconds(0.1f); // waits for a tenth of a second
+            yield return new WaitForSeconds(0.05f);
+
             transform.Translate(new Vector3(0, -0.2f, 0));
         }
-        yield return new WaitForSeconds(2);
-        StartCoroutine(Spawn());
     }
 
-    // Same as Despawn but in reverse 
     IEnumerator Spawn()
-    {;
+    {
         for (int i = 0; i < 5; i++)
         {
-            yield return new WaitForSeconds(0.1f); // waits for a tenth of a second
+            yield return new WaitForSeconds(0.05f);
+
             transform.Translate(new Vector3(0, 0.2f, 0));
         }
     }
