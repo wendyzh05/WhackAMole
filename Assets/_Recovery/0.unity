@@ -48951,7 +48951,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 66283d433ca8d624a98b344baf6d0c43, type: 2}
+  - {fileID: 2100000, guid: f6d3451d12ccd5441891920056117a95, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -49527,7 +49527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
   score: 0
-  scoreText: {fileID: 802201710}
+  scoreText: {fileID: 0}
 --- !u!4 &313439252
 Transform:
   m_ObjectHideFlags: 0
