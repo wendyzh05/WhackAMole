@@ -5,20 +5,26 @@ public class CapsuleLogic : MonoBehaviour
 {
 
     private Renderer capsuleRenderer;
+    private ComboManager comboManager;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         capsuleRenderer = GetComponent<Renderer>();
         StartCoroutine(Spawn());
+        comboManager = FindFirstObjectByType<ComboManager>();
     }
 
-    void OnMouseDown() {
+    void OnMouseDown()
+    {
+        //interacts w combo
+        if (comboManager != null)
+        {
+            comboManager.RegisterHit();
+        }
+
         StartCoroutine(Despawn());
     }
 
-    // Instead of immediately moving the Z to its desired place, this function does it incrementally, making it look "smoother"
-    // Runtime: a second
     IEnumerator Despawn()
     {;
         for (int i = 0; i < 5; i++)
