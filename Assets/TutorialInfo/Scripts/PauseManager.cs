@@ -154,15 +154,16 @@ public class PauseManager : MonoBehaviour
             creditsPanel.SetActive(false);
     }
     
-    public void QuitGame()
+    public void ExitToMainMenu()
     {
         if (buttonClickSound != null && audioSource != null)
             audioSource.PlayOneShot(buttonClickSound);
         
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+        Time.timeScale = 1f;
+        AudioListener.pause = false;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        
+        SceneManager.LoadScene("StartMenu");
     }
 }
