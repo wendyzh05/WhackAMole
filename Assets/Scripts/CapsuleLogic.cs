@@ -5,6 +5,8 @@ public class CapsuleLogic : MonoBehaviour
 {
     private Renderer capsuleRenderer;
     private ComboManager comboManager;
+    public Material[] goodMaterials;
+    public Material[] badMaterials;
 
     public bool isEnemy;
 
@@ -50,11 +52,15 @@ public class CapsuleLogic : MonoBehaviour
 
         if (isEnemy)
         {
-            capsuleRenderer.material.color = Color.red;
+            int randomIndex = Random.Range(0, badMaterials.Length);
+
+            capsuleRenderer.material = badMaterials[randomIndex];
         }
         else
         {
-            capsuleRenderer.material.color = Color.green;
+            int randomIndex = Random.Range(0, goodMaterials.Length);
+
+            capsuleRenderer.material = goodMaterials[randomIndex];
         }
     }
 
