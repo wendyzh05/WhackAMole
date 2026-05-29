@@ -52169,7 +52169,7 @@ GameObject:
   - component: {fileID: 2119620947}
   - component: {fileID: 2119620946}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: LevelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52188,7 +52188,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseManager
   menuCanvas: {fileID: 0}
-  scoreCanvas: {fileID: 3589405}
   menuPanel: {fileID: 0}
   volumePanel: {fileID: 0}
   creditsPanel: {fileID: 0}
