@@ -4,14 +4,22 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    private static string lastLevel;
+    
     private void Update()
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
-            Time.timeScale = 0f;
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            // Save which level we're in
+            lastLevel = SceneManager.GetActiveScene().name;
+            
+            // Load the pause menu
+            SceneManager.LoadScene("PauseMenu");
         }
+    }
+    
+    public static string GetLastLevel()
+    {
+        return lastLevel;
     }
 }
