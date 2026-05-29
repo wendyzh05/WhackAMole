@@ -1,55 +1,83 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField] private GameObject creditsPanel;
+    [Header("UI Panels")]
+    public GameObject levelSelectPanel;
+    public GameObject creditsPanel;
     
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip buttonClickSound;
-    [SerializeField] private AudioClip playGameSound;
-    [SerializeField] private AudioClip exitGameSound;
-    
-    private bool isCreditsVisible = false;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip openPanelSound;
+    public AudioClip closePanelSound;
+    public AudioClip quitGameSound;
     
     private void Start()
     {
-        if (creditsPanel != null)
-            creditsPanel.SetActive(false);
-        
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
+        levelSelectPanel.SetActive(false);
+        creditsPanel.SetActive(false);
+        Time.timeScale = 1f;
+        AudioListener.pause = false;
     }
     
-    public void PlayGame()
+    public void OpenLevelSelect()
     {
-        if (playGameSound != null && audioSource != null)
-            audioSource.PlayOneShot(playGameSound);
-        else if (buttonClickSound != null && audioSource != null)
-            audioSource.PlayOneShot(buttonClickSound);
+        if (audioSource != null && openPanelSound != null)
+            audioSource.PlayOneShot(openPanelSound);
         
-        SceneManager.LoadScene("map scene");
+        levelSelectPanel.SetActive(true);
+        creditsPanel.SetActive(false);
     }
     
-    public void ToggleCreditsPanel()
+    public void CloseLevelSelect()
     {
-        if (buttonClickSound != null && audioSource != null)
-            audioSource.PlayOneShot(buttonClickSound);
+        if (audioSource != null && closePanelSound != null)
+            audioSource.PlayOneShot(closePanelSound);
         
-        if (creditsPanel != null)
+        levelSelectPanel.SetActive(false);
+    }
+    
+    public void LoadLevel(int levelIndex)
+    {
+        if (audioSource != null && closePanelSound != null)
+            audioSource.PlayOneShot(closePanelSound);
+        
+        switch(levelIndex)
         {
-            isCreditsVisible = !isCreditsVisible;
-            creditsPanel.SetActive(isCreditsVisible);
+            case 1:
+                SceneManager.LoadScene("Level1");
+                break;
+            case 2:
+                SceneManager.LoadScene("Level2");
+                break;
+            case 3:
+                SceneManager.LoadScene("Level3");
+                break;
         }
+    }
+    
+    public void OpenCredits()
+    {
+        if (audioSource != null && openPanelSound != null)
+            audioSource.PlayOneShot(openPanelSound);
+        
+        creditsPanel.SetActive(true);
+        levelSelectPanel.SetActive(false);
+    }
+    
+    public void CloseCredits()
+    {
+        if (audioSource != null && closePanelSound != null)
+            audioSource.PlayOneShot(closePanelSound);
+        
+        creditsPanel.SetActive(false);
     }
     
     public void QuitGame()
     {
-        if (exitGameSound != null && audioSource != null)
-            audioSource.PlayOneShot(exitGameSound);
-        else if (buttonClickSound != null && audioSource != null)
-            audioSource.PlayOneShot(buttonClickSound);
+        if (audioSource != null && quitGameSound != null)
+            audioSource.PlayOneShot(quitGameSound);
         
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.ExitPlaymode();
