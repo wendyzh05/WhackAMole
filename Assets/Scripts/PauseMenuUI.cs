@@ -26,8 +26,7 @@ public class PauseMenu : MonoBehaviour
     
     public void ResumeGame()
     {
-        if (audioSource != null && closePanelSound != null)
-            audioSource.PlayOneShot(closePanelSound);
+        audioSource.PlayOneShot(closePanelSound);
         
         string levelToLoad = LevelManager.GetLastLevel();
         
@@ -39,8 +38,7 @@ public class PauseMenu : MonoBehaviour
     
     public void OpenVolumePanel()
     {
-        if (audioSource != null && openPanelSound != null)
-            audioSource.PlayOneShot(openPanelSound);
+        audioSource.PlayOneShot(openPanelSound);
         
         menuPanel.SetActive(false);
         volumePanel.SetActive(true);
@@ -49,8 +47,7 @@ public class PauseMenu : MonoBehaviour
     
     public void OpenCreditsPanel()
     {
-        if (audioSource != null && openPanelSound != null)
-            audioSource.PlayOneShot(openPanelSound);
+        audioSource.PlayOneShot(openPanelSound);
         
         menuPanel.SetActive(false);
         volumePanel.SetActive(false);
@@ -59,8 +56,7 @@ public class PauseMenu : MonoBehaviour
     
     public void CloseVolumePanel()
     {
-        if (audioSource != null && closePanelSound != null)
-            audioSource.PlayOneShot(closePanelSound);
+        audioSource.PlayOneShot(closePanelSound);
         
         menuPanel.SetActive(true);
         volumePanel.SetActive(false);
@@ -68,8 +64,7 @@ public class PauseMenu : MonoBehaviour
     
     public void CloseCreditsPanel()
     {
-        if (audioSource != null && closePanelSound != null)
-            audioSource.PlayOneShot(closePanelSound);
+        audioSource.PlayOneShot(closePanelSound);
         
         menuPanel.SetActive(true);
         creditsPanel.SetActive(false);
@@ -77,8 +72,7 @@ public class PauseMenu : MonoBehaviour
     
     public void ExitToMainMenu()
     {
-        if (audioSource != null && quitGameSound != null)
-            audioSource.PlayOneShot(quitGameSound);
+        audioSource.PlayOneShot(quitGameSound);
         
         SceneManager.LoadScene("StartMenu");
     }
