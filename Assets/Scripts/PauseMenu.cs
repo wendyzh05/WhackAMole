@@ -20,7 +20,6 @@ public class PauseMenu : MonoBehaviour
         volumePanel.SetActive(false);
         creditsPanel.SetActive(false);
         
-        Time.timeScale = 0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
@@ -30,11 +29,12 @@ public class PauseMenu : MonoBehaviour
         if (audioSource != null && closePanelSound != null)
             audioSource.PlayOneShot(closePanelSound);
         
-        Time.timeScale = 1f;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        string levelToLoad = LevelManager.GetLastLevel();
         
-        SceneManager.UnloadSceneAsync("PauseMenu");
+        if (!string.IsNullOrEmpty(levelToLoad))
+        {
+            SceneManager.LoadScene(levelToLoad);
+        }
     }
     
     public void OpenVolumePanel()
@@ -80,11 +80,6 @@ public class PauseMenu : MonoBehaviour
         if (audioSource != null && quitGameSound != null)
             audioSource.PlayOneShot(quitGameSound);
         
-        Time.timeScale = 1f;
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        
-        SceneManager.UnloadSceneAsync("PauseMenu");
         SceneManager.LoadScene("StartMenu");
     }
 }

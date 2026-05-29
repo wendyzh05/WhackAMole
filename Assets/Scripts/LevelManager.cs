@@ -4,31 +4,22 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    private GameObject levelEventSystem;
-    
-    private void Start()
-    {
-        levelEventSystem = GameObject.Find("EventSystem");
-    }
+    private static string lastLevel;
     
     private void Update()
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            // Disable the Level scene's EventSystem
-            if (levelEventSystem != null)
-                levelEventSystem.SetActive(false);
+            // Save which level we're in
+            lastLevel = SceneManager.GetActiveScene().name;
             
-            SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
-            Time.timeScale = 0f;
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            // Load the pause menu
+            SceneManager.LoadScene("PauseMenu");
         }
     }
     
-    public void EnableEventSystem()
+    public static string GetLastLevel()
     {
-        if (levelEventSystem != null)
-            levelEventSystem.SetActive(true);
+        return lastLevel;
     }
 }
