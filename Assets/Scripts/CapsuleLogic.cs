@@ -8,6 +8,8 @@ public class CapsuleLogic : MonoBehaviour
     public Material[] goodMaterials;
     public Material[] badMaterials;
 
+    public Light glowLight;
+
     public bool isEnemy;
 
     private bool isUp = false;
@@ -55,12 +57,16 @@ public class CapsuleLogic : MonoBehaviour
             int randomIndex = Random.Range(0, badMaterials.Length);
 
             capsuleRenderer.material = badMaterials[randomIndex];
+
+            glowLight.color = Color.red;
         }
         else
         {
             int randomIndex = Random.Range(0, goodMaterials.Length);
 
             capsuleRenderer.material = goodMaterials[randomIndex];
+
+            glowLight.color = Color.green;
         }
     }
 
