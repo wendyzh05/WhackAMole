@@ -80,7 +80,7 @@ public class ComboManager : MonoBehaviour
     void UpdateUI()
     {
         if (xpText != null)
-            xpText.text = "House Points: " + xp;
+            xpText.text = xp.ToString();
 
         if (comboText != null)
             comboText.text = "Combo: x" + combo;
