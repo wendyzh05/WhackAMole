@@ -8,30 +8,40 @@ public class PauseMenu : MonoBehaviour
     public GameObject volumePanel;
     public GameObject creditsPanel;
     
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip openPanelSound;
+    public AudioClip closePanelSound;
+    public AudioClip quitGameSound;
+    
     private void Start()
     {
         menuPanel.SetActive(true);
         volumePanel.SetActive(false);
         creditsPanel.SetActive(false);
+        
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
     
     public void ResumeGame()
     {
-        // Get the level name we saved
-        string levelName = LevelManager.GetCurrentLevel();
+        if (audioSource != null && closePanelSound != null)
+            audioSource.PlayOneShot(closePanelSound);
         
-        // Unpause everything
         Time.timeScale = 1f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        AudioListener.pause = false;
         
-        // Unload the pause menu
         SceneManager.UnloadSceneAsync("PauseMenu");
     }
     
     public void OpenVolumePanel()
     {
+        if (audioSource != null && openPanelSound != null)
+            audioSource.PlayOneShot(openPanelSound);
+        
         menuPanel.SetActive(false);
         volumePanel.SetActive(true);
         creditsPanel.SetActive(false);
@@ -39,6 +49,9 @@ public class PauseMenu : MonoBehaviour
     
     public void OpenCreditsPanel()
     {
+        if (audioSource != null && openPanelSound != null)
+            audioSource.PlayOneShot(openPanelSound);
+        
         menuPanel.SetActive(false);
         volumePanel.SetActive(false);
         creditsPanel.SetActive(true);
@@ -46,28 +59,32 @@ public class PauseMenu : MonoBehaviour
     
     public void CloseVolumePanel()
     {
+        if (audioSource != null && closePanelSound != null)
+            audioSource.PlayOneShot(closePanelSound);
+        
         menuPanel.SetActive(true);
         volumePanel.SetActive(false);
     }
     
     public void CloseCreditsPanel()
     {
+        if (audioSource != null && closePanelSound != null)
+            audioSource.PlayOneShot(closePanelSound);
+        
         menuPanel.SetActive(true);
         creditsPanel.SetActive(false);
     }
     
     public void ExitToMainMenu()
     {
-        // Unpause everything
+        if (audioSource != null && quitGameSound != null)
+            audioSource.PlayOneShot(quitGameSound);
+        
         Time.timeScale = 1f;
-        AudioListener.pause = false;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         
-        // Unload pause menu
         SceneManager.UnloadSceneAsync("PauseMenu");
-        
-        // Load start menu
         SceneManager.LoadScene("StartMenu");
     }
 }
