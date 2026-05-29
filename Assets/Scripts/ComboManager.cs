@@ -61,6 +61,7 @@ public class ComboManager : MonoBehaviour
     {
         ResetCombo();
         ShowSpell("Combo broken!");
+        xp -= 10;
     }
 
     void ResetCombo()

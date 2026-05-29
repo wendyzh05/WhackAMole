@@ -2,51 +2,64 @@ using UnityEngine;
 
 public class WandMovement : MonoBehaviour
 {
-
-    public float speed = 10f;
-
     public Transform Board;
 
-    private void Update()
+    [Header("Loose Follow")]
+    public float followSpeed = 6f;
+    public Vector3 screenOffset = new Vector3(2f, 0f, 0f);
+
+    [Header("Wand Flick")]
+    public float flickAngle = 25f;
+    public float flickSpeed = 15f;
+
+    private float currentFlick = 0f;
+    private float targetFlick = 0f;
+
+    void Update()
     {
         Vector3 mousePos = Input.mousePosition;
-
         mousePos.z = Camera.main.transform.position.y;
 
-        Vector3 targetedPoint = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector3 targetPoint = Camera.main.ScreenToWorldPoint(mousePos);
+        targetPoint.y = transform.position.y;
+
+        Vector3 desiredPosition = targetPoint + screenOffset;
+
+        transform.position = Vector3.Lerp(
+            transform.position,
+            desiredPosition,
+            followSpeed * Time.deltaTime
+        );
 
         if (Board != null)
         {
-            // Point the object's forward axis (blue arrow) toward the target's position
             transform.LookAt(Board.position);
         }
 
-        if (mousePos.y < 200 & mousePos.y > 140)
+        currentFlick = Mathf.Lerp(
+            currentFlick,
+            targetFlick,
+            flickSpeed * Time.deltaTime
+        );
+
+        transform.Rotate(Vector3.right, currentFlick);
+
+        targetFlick = Mathf.Lerp(
+            targetFlick,
+            0f,
+            flickSpeed * Time.deltaTime
+        );
+
+        if (Input.GetMouseButtonDown(0))
         {
-            targetedPoint.y = transform.position.y;
-            transform.position = targetedPoint;
+            Flick();
         }
-        else
-        {
-            targetedPoint.y = transform.position.y;
-            transform.position = targetedPoint;
-        }
-
-        Debug.Log(mousePos);
-
     }
-    
-    /*
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    void Flick()
     {
-        
+        targetFlick = flickAngle;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    */
 }
+
+
