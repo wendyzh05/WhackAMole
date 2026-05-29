@@ -20,6 +20,6 @@ public class Level_timer : MonoBehaviour
         }
 
         if (timerText != null)
-            timerText.text = "Time Remaining: " + Mathf.CeilToInt(timeLeft);
+            timerText.text = "Timer " + Mathf.CeilToInt(timeLeft);
     }
 }
