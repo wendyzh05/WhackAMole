@@ -28,6 +28,13 @@ public class Level_timer : MonoBehaviour
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
 
-        SceneManager.LoadScene(currentScene + 1);
+        if (currentScene == 3)
+        {
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            SceneManager.LoadScene(currentScene + 1);
+        }
     }
 }
