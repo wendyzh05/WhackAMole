@@ -53813,6 +53813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6c37f850e0ecf47ae0ad0d2346a040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseManager
+  pauseMenuPrefab: {fileID: 1997813538788660797, guid: a1a3603dae8dd414888b101985066e41, type: 3}
 --- !u!4 &2119620947
 Transform:
   m_ObjectHideFlags: 0
