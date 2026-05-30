@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenuUI : MonoBehaviour
 {
     [Header("UI Panels")]
     public GameObject menuPanel;
@@ -12,7 +12,8 @@ public class PauseMenu : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip openPanelSound;
     public AudioClip closePanelSound;
-    public AudioClip quitGameSound;
+    
+    private LevelManager levelManager;
     
     private void Start()
     {
@@ -20,25 +21,34 @@ public class PauseMenu : MonoBehaviour
         volumePanel.SetActive(false);
         creditsPanel.SetActive(false);
         
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        levelManager = FindAnyObjectByType<LevelManager>();
+        if (levelManager == null)
+        {
+            Debug.LogError("LevelManager not found!");
+        }
     }
     
     public void ResumeGame()
     {
-        audioSource.PlayOneShot(closePanelSound);
+        if (audioSource != null && closePanelSound != null)
+            audioSource.PlayOneShot(closePanelSound);
         
-        string levelToLoad = LevelManager.GetLastLevel();
-        
-        if (!string.IsNullOrEmpty(levelToLoad))
+        if (levelManager != null)
         {
-            SceneManager.LoadScene(levelToLoad);
+            levelManager.ResumeGame();
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            AudioListener.pause = false;
+            Destroy(gameObject);
         }
     }
     
     public void OpenVolumePanel()
     {
-        audioSource.PlayOneShot(openPanelSound);
+        if (audioSource != null && openPanelSound != null)
+            audioSource.PlayOneShot(openPanelSound);
         
         menuPanel.SetActive(false);
         volumePanel.SetActive(true);
@@ -47,7 +57,8 @@ public class PauseMenu : MonoBehaviour
     
     public void OpenCreditsPanel()
     {
-        audioSource.PlayOneShot(openPanelSound);
+        if (audioSource != null && openPanelSound != null)
+            audioSource.PlayOneShot(openPanelSound);
         
         menuPanel.SetActive(false);
         volumePanel.SetActive(false);
@@ -56,7 +67,8 @@ public class PauseMenu : MonoBehaviour
     
     public void CloseVolumePanel()
     {
-        audioSource.PlayOneShot(closePanelSound);
+        if (audioSource != null && closePanelSound != null)
+            audioSource.PlayOneShot(closePanelSound);
         
         menuPanel.SetActive(true);
         volumePanel.SetActive(false);
@@ -64,7 +76,8 @@ public class PauseMenu : MonoBehaviour
     
     public void CloseCreditsPanel()
     {
-        audioSource.PlayOneShot(closePanelSound);
+        if (audioSource != null && closePanelSound != null)
+            audioSource.PlayOneShot(closePanelSound);
         
         menuPanel.SetActive(true);
         creditsPanel.SetActive(false);
@@ -72,8 +85,18 @@ public class PauseMenu : MonoBehaviour
     
     public void ExitToMainMenu()
     {
-        audioSource.PlayOneShot(quitGameSound);
+        if (audioSource != null && closePanelSound != null)
+            audioSource.PlayOneShot(closePanelSound);
         
-        SceneManager.LoadScene("StartMenu");
+        if (levelManager != null)
+        {
+            levelManager.ExitToMainMenu();
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            AudioListener.pause = false;
+            SceneManager.LoadScene("StartMenu");
+        }
     }
 }
